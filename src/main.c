@@ -6,7 +6,7 @@
 /*   By: lgaultie <lgaultie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 22:55:02 by lgaultie          #+#    #+#             */
-/*   Updated: 2020/02/17 18:08:24 by lgaultie         ###   ########.fr       */
+/*   Updated: 2020/02/17 19:25:27 by lgaultie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int		main(int ac, char **av)
 	i = 1;
 	while (av[i])
 	{
+		av[i] = ft_strcat(av[i], "/");
 		get_elements(&ls,av[i]);
 		i++;
 	}

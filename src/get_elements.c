@@ -6,7 +6,7 @@
 /*   By: lgaultie <lgaultie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 16:46:14 by lgaultie          #+#    #+#             */
-/*   Updated: 2020/02/17 18:59:41 by lgaultie         ###   ########.fr       */
+/*   Updated: 2020/02/17 19:33:10 by lgaultie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,17 @@
 void		is_it_directory(t_ls *ls, char *name, char *av)
 {
 	struct stat	fileStat;
-	int			ret;
-	char 		*fu;
+	char 		*path;
+	char 		*file;
 
-	ft_bzero(&fileStat, sizeof(fileStat));
-	av = ft_strjoin(av, "/");
-	fu = ft_strjoin("./",av);
-	printf("fu = %s\n", fu);
-	printf("name = %s\n", name);
-	ret = stat(ft_strjoin(fu, name), &fileStat);
-	printf("ret = %d\nname of file is %s\n", ret, name);
+	if (!(path = ft_strjoin("./", av)))
+		ft_error(ls, &free_all, MALLOC);
+	if (!(file = ft_strjoin(path, name)))
+		ft_error(ls, &free_all, MALLOC);
+	stat(file, &fileStat);
+
+	////////////////////////////
+	printf("file = %s\n", file);
 	printf("Number of Links: \t%d\n",fileStat.st_nlink);
 	printf("File inode: \t\t%llu\n",fileStat.st_ino);
 	printf( (S_ISDIR(fileStat.st_mode)) ? "d" : "-");
@@ -38,19 +39,18 @@ void		is_it_directory(t_ls *ls, char *name, char *av)
 	printf( (fileStat.st_mode & S_IWOTH) ? "w" : "-");
 	printf( (fileStat.st_mode & S_IXOTH) ? "x" : "-");
 	printf("\n");
-
-	(void)ls;
-	(void)av;
-// 	if (ret != 0)
-// 	{
-// 		add_file(ls, name);
-// 	}
-// 	else
-// 	{
-// 		// on n'enregistre pas le dossier courant
-// 		if (ft_strcmp(name, ".") != 0)
-// 			add_directory(ls, av);
-// 	}
+	printf("\n");
+	////////////////////////
+	if (S_ISDIR(fileStat.st_mode))
+	{
+		// on n'enregistre pas le dossier courant
+		if (ft_strcmp(name, ".") != 0)
+		add_directory(ls, file);
+	}
+	else
+	{
+		add_file(ls, name);
+	}
 }
 
 void		get_elements(t_ls *ls, char *av)
