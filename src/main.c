@@ -6,7 +6,7 @@
 /*   By: lgaultie <lgaultie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 22:55:02 by lgaultie          #+#    #+#             */
-/*   Updated: 2020/02/17 19:25:27 by lgaultie         ###   ########.fr       */
+/*   Updated: 2020/02/17 20:49:04 by lgaultie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ int		main(int ac, char **av)
 	t_ls			ls;
 	int				flag;
 	int				i;
+	int				flag_on;
 
 	(void)ac;
+	flag_on = 0;
 	//recuperer les flags
 	init_flag(&flag, av);
 	// créer la structure et ajouter le int flag
@@ -33,6 +35,12 @@ int		main(int ac, char **av)
 	i = 1;
 	while (av[i])
 	{
+		if (av[i][0] == '-')
+		{
+			flag_on = 1;
+			i++;
+			continue;
+		}
 		av[i] = ft_strcat(av[i], "/");
 		get_elements(&ls,av[i]);
 		i++;
